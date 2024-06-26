@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-spring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookstore-spring
+  template:
+    metadata:
+      labels:
+        app: bookstore-spring
+    spec:
+      containers:
+        - name: bookstore-spring
+          image: szymongrabski/bookstore-spring
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://db:5432/compose-postgres"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "compose-postgres"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "compose-postgres"
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "update"
+          ports:
+            - containerPort: 8080

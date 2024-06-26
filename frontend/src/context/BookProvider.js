@@ -11,8 +11,8 @@ const BookProvider = ({ children }) => {
     useEffect(() => {
         async function fetchBooks() {
             try {
-                const response = await axios.get('http://localhost:8080/books');
-                setBooks(response.data.books);
+                const response = await axios.get('http://bookstore-spring-service:8080/books');
+                setBooks(response.data);
             } catch (error) {
                 setError(error);
             } finally {

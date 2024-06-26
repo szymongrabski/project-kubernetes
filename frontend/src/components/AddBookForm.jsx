@@ -19,7 +19,7 @@ const AddBookForm = () => {
     }),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        const response = await axios.post('http://localhost:8080/books', values);
+        const response = await axios.post('http://bookstore-spring-service:8080/books', values);
         console.log('Server response:', response.data);
         resetForm();
       } catch (error) {
