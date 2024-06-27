@@ -37,6 +37,7 @@ metadata:
   name: react-app-ingress
 spec:
   rules:
+#    - etc/hosts zawiera mapowanie IP kubernetes cluster na my-app.grabski.com
     - host: my-app.grabski.com
       http:
         paths:
