@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+spec:
+  rules:
+    - host: my-app.grabski.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/books"
+            backend:
+              service:
+                name: spring-boot-service
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: react-service
+                port:
+                  number: 80
