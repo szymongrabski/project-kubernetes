@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: react-app
 spec:
+  type: NodePort
   selector:
     app: react-app
   ports:

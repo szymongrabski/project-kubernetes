@@ -1,5 +1,6 @@
+// src/context/BookContext.js
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import { fetchBooks } from '../api'; // Adjust the path as needed
 
 const BookContext = createContext();
 
@@ -9,10 +10,10 @@ const BookProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        async function fetchBooks() {
+        async function loadBooks() {
             try {
-                const response = await axios.get('http://localhost:8080/books');
-                setBooks(response.data);
+                const booksData = await fetchBooks();
+                setBooks(booksData);
             } catch (error) {
                 setError(error);
             } finally {
@@ -20,11 +21,11 @@ const BookProvider = ({ children }) => {
             }
         }
 
-        fetchBooks();
+        loadBooks();
     }, []);
 
     return (
-        <BookContext.Provider value={{ books, loading, error }}>
+        <BookContext.Provider value={{ books, setBooks, loading, error }}>
             {children}
         </BookContext.Provider>
     );

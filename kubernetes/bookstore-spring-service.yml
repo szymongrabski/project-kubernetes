@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: bookstore-spring
 spec:
+  type: NodePort
   selector:
     app: bookstore-spring
   ports:

@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { BookContext } from "../context/BookProvider";
+import { fetchBooks } from "../api";
 
 const AddBookForm = () => {
+  const { setBooks } = useContext(BookContext);
+
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -19,7 +23,9 @@ const AddBookForm = () => {
     }),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        const response = await axios.post('http://bookstore-spring-service:8080/books', values);
+        const response = await axios.post('http://localhost:8080/books', values);
+        const responseBooks = await fetchBooks();
+        setBooks(responseBooks);
         console.log('Server response:', response.data);
         resetForm();
       } catch (error) {
@@ -31,66 +37,66 @@ const AddBookForm = () => {
   });
 
   return (
-    <div>
-      <h2>Add Book</h2>
-      <form onSubmit={formik.handleSubmit}>
-        <label htmlFor="title">Title:</label>
-        <input
-          id="title"
-          name="title"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.title}
-        />
-        {formik.touched.title && formik.errors.title ? (
-          <div>{formik.errors.title}</div>
-        ) : null}
+      <div>
+        <h2>Add Book</h2>
+        <form onSubmit={formik.handleSubmit}>
+          <label htmlFor="title">Title:</label>
+          <input
+              id="title"
+              name="title"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.title}
+          />
+          {formik.touched.title && formik.errors.title ? (
+              <div>{formik.errors.title}</div>
+          ) : null}
 
-        <label htmlFor="subtitle">Subtitle:</label>
-        <input
-          id="subtitle"
-          name="subtitle"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.subtitle}
-        />
-        {formik.touched.subtitle && formik.errors.subtitle ? (
-          <div>{formik.errors.subtitle}</div>
-        ) : null}
+          <label htmlFor="subtitle">Subtitle:</label>
+          <input
+              id="subtitle"
+              name="subtitle"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.subtitle}
+          />
+          {formik.touched.subtitle && formik.errors.subtitle ? (
+              <div>{formik.errors.subtitle}</div>
+          ) : null}
 
-        <label htmlFor="authors">Authors (comma-separated):</label>
-        <input
-          id="authors"
-          name="authors"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.authors}
-        />
-        {formik.touched.authors && formik.errors.authors ? (
-          <div>{formik.errors.authors}</div>
-        ) : null}
+          <label htmlFor="authors">Authors (comma-separated):</label>
+          <input
+              id="authors"
+              name="authors"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.authors}
+          />
+          {formik.touched.authors && formik.errors.authors ? (
+              <div>{formik.errors.authors}</div>
+          ) : null}
 
-        <label htmlFor="image">Image URL:</label>
-        <input
-          id="image"
-          name="image"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.image}
-        />
-        {formik.touched.image && formik.errors.image ? (
-          <div>{formik.errors.image}</div>
-        ) : null}
+          <label htmlFor="image">Image URL:</label>
+          <input
+              id="image"
+              name="image"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.image}
+          />
+          {formik.touched.image && formik.errors.image ? (
+              <div>{formik.errors.image}</div>
+          ) : null}
 
-        <button type="submit" disabled={formik.isSubmitting}>
-          {formik.isSubmitting ? 'Submitting...' : 'Submit'}
-        </button>
-      </form>
-    </div>
+          <button type="submit" disabled={formik.isSubmitting}>
+            {formik.isSubmitting ? 'Submitting...' : 'Submit'}
+          </button>
+        </form>
+      </div>
   );
 };
 
